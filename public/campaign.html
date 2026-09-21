@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campaign — KidsFund</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.campaign-page { max-width: 720px; margin: 0 auto; padding: 40px 24px; }
+.campaign-page .hero-img {
+  height: 220px; border-radius: 12px; margin-bottom: 24px;
+  background: linear-gradient(135deg, #a5d6a7, #81c784);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 72px; color: white;
+}
+.campaign-page h1 { font-size: 28px; margin-bottom: 8px; }
+.campaign-page .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+.campaign-page .story { font-size: 16px; line-height: 1.7; margin: 24px 0; white-space: pre-wrap; }
+.stats-box {
+  background: white; padding: 24px; border-radius: 12px;
+  margin: 24px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.stats-box .amount { font-size: 32px; font-weight: 700; color: #1b5e20; }
+.stats-box .goal { color: #666; margin-bottom: 12px; }
+.recent-donations { margin-top: 32px; }
+.recent-donations h3 { margin-bottom: 12px; font-size: 16px; }
+.donation-row {
+  display: flex; justify-content: space-between; padding: 12px 0;
+  border-bottom: 1px solid #eee; font-size: 14px;
+}
+.donation-row .name { color: #333; }
+.donation-row .amt { font-weight: 600; color: #1b5e20; }
+
+.tiers-section { margin: 32px 0; }
+.tiers-section h3 { font-size: 18px; margin-bottom: 16px; color: #1b5e20; }
+.tiers-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+.tier-card {
+  background: white; border: 1px solid #e0e0e0; border-radius: 10px;
+  padding: 16px; text-align: left; cursor: pointer;
+  transition: all .15s; font-family: inherit;
+}
+.tier-card:hover { border-color: #4caf50; box-shadow: 0 2px 8px rgba(76,175,80,0.15); }
+.tier-amount { font-size: 20px; font-weight: 700; color: #1b5e20; margin-bottom: 4px; }
+.tier-label { font-size: 13px; color: #555; line-height: 1.4; }
+
+.modal {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+  padding: 16px;
+}
+.modal.hidden { display: none; }
+.modal-content {
+  background: white; padding: 32px; border-radius: 12px;
+  max-width: 420px; width: 100%; position: relative;
+}
+.modal-content h2 { margin-bottom: 20px; }
+.modal-content label { display: block; font-size: 13px; color: #555; margin-top: 14px; margin-bottom: 6px; }
+.modal-content input {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd;
+  border-radius: 8px; font-size: 15px;
+}
+.close {
+  position: absolute; top: 12px; right: 16px;
+  background: none; border: none; font-size: 28px; cursor: pointer; color: #999;
+}
+.amount-presets {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px;
+}
+.amount-presets button {
+  padding: 10px; border: 1px solid #ddd; background: white;
+  border-radius: 6px; cursor: pointer; font-size: 13px;
+}
+.amount-presets button:hover { border-color: #4caf50; color: #4caf50; }
+.spinner {
+  width: 40px; height: 40px; border: 4px solid #eee;
+  border-top-color: #4caf50; border-radius: 50%;
+  animation: spin 1s linear infinite; margin: 20px auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+#statusBox { text-align: center; padding: 20px; }
+#statusText { color: #555; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">🌱 KidsFund</a>
+  <nav>
+    <a href="/about.html">About</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/donate-goods.html">Donate Goods</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/campaign.html?slug=general-fund" class="btn-outline">Donate</a>
+  </nav>
+</header>
+
+<main id="campaign" class="campaign-page">
+  <div class="loading">Loading...</div>
+</main>
+
+<div id="donateModal" class="modal hidden">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal()">×</button>
+    <h2>Donate via M-Pesa</h2>
+
+    <div id="donateForm">
+      <label>Your Name (optional)</label>
+      <input id="donorName" type="text" placeholder="Anonymous">
+
+      <label>M-Pesa Phone Number</label>
+      <input id="donorPhone" type="tel" placeholder="0712345678" required>
+
+      <label>Amount (KES)</label>
+      <div class="amount-presets">
+        <button type="button" data-amt="100">100</button>
+        <button type="button" data-amt="500">500</button>
+        <button type="button" data-amt="1000">1,000</button>
+        <button type="button" data-amt="5000">5,000</button>
+      </div>
+      <input id="donorAmount" type="number" min="1" placeholder="Enter amount">
+
+      <button id="payBtn" class="btn-primary">Send Payment Prompt</button>
+    </div>
+
+    <div id="statusBox" class="hidden">
+      <div class="spinner"></div>
+      <p id="statusText">Check your phone and enter your M-Pesa PIN...</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(location.search);
+const slug = params.get('slug') || 'general-fund';
+let currentCampaign = null;
+let pollTimer = null;
+
+async function loadCampaign() {
+  const res = await fetch(`/api/campaigns/${slug}`);
+  if (!res.ok) {
+    document.getElementById('campaign').innerHTML = '<div class="loading">Campaign not found.</div>';
+    return;
+  }
+  const c = await res.json();
+  currentCampaign = c;
+
+  const pct = Math.min(100, Math.round((c.raised_amount / c.goal_amount) * 100));
+  const showTiers = slug === 'general-fund';
+
+  document.getElementById('campaign').innerHTML = `
+    <div class="hero-img">${categoryEmoji(c.category)}</div>
+    <h1>${escapeHtml(c.title)}</h1>
+    <div class="meta">
+      ${c.location ? '📍 ' + escapeHtml(c.location) + ' · ' : ''}
+      ${c.child_age ? c.child_age + ' years old · ' : ''}
+      ${escapeHtml(c.category || 'General')}
+    </div>
+
+    <div class="stats-box">
+      <div class="progress"><div class="progress-bar" style="width:${pct}%"></div></div>
+      <div style="display:flex;justify-content:space-between;margin-top:12px;">
+        <div>
+          <div class="amount">KES ${c.raised_amount.toLocaleString()}</div>
+          <div class="goal">raised of KES ${c.goal_amount.toLocaleString()}</div>
+        </div>
+        <div style="text-align:right;">
+          <div class="amount">${pct}%</div>
+          <div class="goal">funded</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="openModal()">Donate with M-Pesa</button>
+    </div>
+
+    <div class="story">${escapeHtml(c.story)}</div>
+
+    ${showTiers ? `
+      <div class="tiers-section">
+        <h3>What Your Money Buys</h3>
+        <div class="tiers-grid" id="tiersGrid">Loading…</div>
+      </div>
+    ` : ''}
+
+    ${c.recentDonations && c.recentDonations.length ? `
+      <div class="recent-donations">
+        <h3>Recent Donations</h3>
+        ${c.recentDonations.map(d => `
+          <div class="donation-row">
+            <span class="name">${escapeHtml(d.donor_name || 'Anonymous')}</span>
+            <span class="amt">KES ${d.amount.toLocaleString()}</span>
+          </div>
+        `).join('')}
+      </div>
+    ` : ''}
+  `;
+
+  if (showTiers) loadTiers();
+}
+
+async function loadTiers() {
+  try {
+    const res = await fetch('/api/site/settings');
+    const s = await res.json();
+    const tiers = JSON.parse(s.donation_tiers || '[]');
+    const grid = document.getElementById('tiersGrid');
+    if (!grid) return;
+
+    if (!tiers.length) { grid.innerHTML = ''; return; }
+
+    grid.innerHTML = tiers.map(t => `
+      <button class="tier-card" data-amt="${t.amount}">
+        <div class="tier-amount">KES ${t.amount.toLocaleString()}</div>
+        <div class="tier-label">${escapeHtml(t.label)}</div>
+      </button>
+    `).join('');
+
+    grid.querySelectorAll('.tier-card').forEach(b => {
+      b.addEventListener('click', () => {
+        openModal();
+        document.getElementById('donorAmount').value = b.dataset.amt;
+      });
+    });
+  } catch (e) { console.error(e); }
+}
+
+function categoryEmoji(cat) {
+  return { Education: '📚', Health: '🏥', Nutrition: '🍲',
+           Shelter: '🏠', Emergency: '🚨', General: '🌱' }[cat] || '🌱';
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+function openModal() {
+  document.getElementById('donateModal').classList.remove('hidden');
+  document.getElementById('donateForm').classList.remove('hidden');
+  document.getElementById('statusBox').classList.add('hidden');
+}
+function closeModal() {
+  document.getElementById('donateModal').classList.add('hidden');
+  if (pollTimer) clearInterval(pollTimer);
+}
+
+document.querySelectorAll('.amount-presets button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.getElementById('donorAmount').value = b.dataset.amt;
+  });
+});
+
+document.getElementById('payBtn').addEventListener('click', async () => {
+  const phone = document.getElementById('donorPhone').value.trim();
+  const amount = Number(document.getElementById('donorAmount').value);
+  const donorName = document.getElementById('donorName').value.trim();
+
+  if (!phone || !amount || amount < 1) {
+    alert('Please enter a valid phone number and amount');
+    return;
+  }
+
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const res = await fetch('/api/mpesa/pay', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        campaignId: currentCampaign.id,
+        phone, amount, donorName
+      })
+    });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || 'Payment failed');
+
+    document.getElementById('donateForm').classList.add('hidden');
+    document.getElementById('statusBox').classList.remove('hidden');
+    document.getElementById('statusText').textContent = 'Check your phone and enter your M-Pesa PIN...';
+
+    startPolling(out.checkoutRequestId);
+  } catch (err) {
+    alert('Error: ' + err.message);
+    btn.disabled = false;
+    btn.textContent = 'Send Payment Prompt';
+  }
+});
+
+function startPolling(checkoutId) {
+  let attempts = 0;
+  pollTimer = setInterval(async () => {
+    attempts++;
+    if (attempts > 40) {
+      clearInterval(pollTimer);
+      document.getElementById('statusText').textContent = 'Timed out. If you completed payment, it will still be recorded.';
+      return;
+    }
+    try {
+      const res = await fetch(`/api/mpesa/status/${checkoutId}`);
+      const s = await res.json();
+      if (s.status === 'completed') {
+        clearInterval(pollTimer);
+        document.getElementById('statusBox').innerHTML = `
+          <h3 style="color:#1b5e20;margin-bottom:8px;">✓ Thank you!</h3>
+          <p style="color:#555;font-size:14px;">Receipt: ${s.mpesa_receipt}</p>
+          <p style="color:#555;font-size:14px;">KES ${s.amount.toLocaleString()} received.</p>
+          <button class="btn-primary" onclick="location.reload()" style="margin-top:16px;">Done</button>
+        `;
+      } else if (s.status === 'failed') {
+        clearInterval(pollTimer);
+        document.getElementById('statusText').textContent = 'Payment failed or was cancelled.';
+      }
+    } catch (e) {}
+  }, 3000);
+}
+
+loadCampaign();
+</script>
+</body>
+</html>

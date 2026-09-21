@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sponsor a Child in Kenya — Helping Hands Foundation</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+.article { max-width: 820px; margin: 0 auto; }
+.article h1 { font-size: 36px; color: #1b5e20; margin-bottom: 16px; line-height: 1.25; }
+.article h2 { font-size: 26px; color: #1b5e20; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid #e8f5e9; }
+.article h3 { font-size: 20px; color: #1b5e20; margin: 32px 0 12px; }
+.article p { font-size: 17px; line-height: 1.8; color: #333; margin-bottom: 20px; }
+.article ul { margin: 20px 0; padding-left: 24px; }
+.article li { font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 12px; }
+.article strong { color: #1a1a1a; }
+.article .lead { font-size: 19px; color: #444; line-height: 1.7; margin-bottom: 32px; }
+.article .pull { font-size: 22px; font-weight: 600; color: #1b5e20; margin: 32px 0; padding: 24px; background: #f1f8e9; border-radius: 12px; text-align: center; }
+
+.steps-list { counter-reset: step; list-style: none; padding: 0; margin: 24px 0; }
+.steps-list li { counter-increment: step; padding: 20px 20px 20px 60px; position: relative; background: white; border-radius: 10px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.steps-list li::before { content: counter(step); position: absolute; left: 20px; top: 20px; width: 28px; height: 28px; background: #4caf50; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; }
+.steps-list strong { display: block; color: #1b5e20; font-size: 17px; margin-bottom: 6px; }
+.steps-list p { margin: 0; font-size: 15px; }
+
+.price-table { width: 100%; border-collapse: collapse; margin: 24px 0; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+.price-table th { background: #1b5e20; color: white; padding: 14px 16px; text-align: left; font-size: 14px; text-transform: uppercase; letter-spacing: .5px; }
+.price-table td { padding: 16px; border-bottom: 1px solid #f0f0f0; font-size: 15px; vertical-align: top; }
+.price-table tr:last-child td { border-bottom: none; }
+.price-table .level { font-weight: 700; color: #1b5e20; }
+.price-table .amount { font-weight: 600; color: #1a1a1a; white-space: nowrap; }
+.price-table .cta-cell { text-align: right; }
+.price-table .cta-cell a { background: #4caf50; color: white; padding: 8px 16px; border-radius: 6px; font-size: 13px; font-weight: 600; display: inline-block; }
+
+.faq { margin: 24px 0; }
+.faq details { background: white; padding: 20px; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+.faq summary { font-weight: 600; color: #1b5e20; cursor: pointer; font-size: 16px; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::before { content: '+ '; color: #4caf50; font-weight: 700; }
+.faq details[open] summary::before { content: '− '; }
+.faq details p { margin: 16px 0 0; font-size: 15px; line-height: 1.7; color: #444; }
+
+.contact-box { background: #1b5e20; color: white; padding: 40px; border-radius: 16px; margin: 48px 0; text-align: center; }
+.contact-box h2 { color: white; border-bottom-color: rgba(255,255,255,0.2); }
+.contact-box p { color: #c8e6c9; font-size: 17px; }
+.contact-box .contact-lines { margin: 24px 0; font-size: 16px; line-height: 2; }
+.contact-box .contact-lines strong { color: white; }
+.contact-box a { color: #e8f5e9; text-decoration: underline; }
+
+/* ===== Photo bands behind headings ===== */
+h2.photo-band {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white !important;
+  border-bottom: none !important;
+  border-radius: 16px;
+  padding: 72px 40px !important;
+  margin: 72px -40px !important;
+  text-align: center;
+  font-size: 32px !important;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.55);
+  overflow: hidden;
+  line-height: 1.3;
+}
+h2.photo-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(27,94,32,0.8), rgba(27,94,32,0.5));
+  z-index: 0;
+}
+
+@media (max-width: 900px) {
+  h2.photo-band {
+    background-attachment: scroll;
+    padding: 48px 20px !important;
+    margin: 48px -24px !important;
+    font-size: 24px !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .article h1 { font-size: 28px; }
+  .price-table th, .price-table td { padding: 10px; font-size: 13px; }
+  .price-table .cta-cell a { padding: 6px 10px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+    <div class="page-bg" id="pageBg"></div>
+
+<header class="nav">
+  <a href="#top" class="logo">🤝 Helping Hands Foundation</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#covers">What Sponsorship Covers</a>
+    <a href="#levels">Sponsorship Levels</a>
+    <a href="#how">How It Works</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact" class="btn-outline">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO SLIDESHOW -->
+<section class="hero-slider" id="top">
+
+  <div class="hero-slide active" style="background-image: url('/images/happy children 1.jpg');"></div>
+  <div class="hero-slide" style="background-image: url('/images/happy children 2.jpg');"></div>
+  <div class="hero-slide" style="background-image: url('/images/kids1.jpg');"></div>
+
+  <div class="hero-inner">
+    <h1>Sponsor a Child in Kenya</h1>
+    <p>Give one child a home, an education and a future.</p>
+    <div class="hero-actions">
+      <a href="#levels" class="btn-primary hero-btn">Sponsor a Child</a>
+      <a href="#about" class="btn-outline" style="background:rgba(255,255,255,0.1);color:white;border-color:white;">Learn More</a>
+    </div>
+  </div>
+
+  <div class="hero-dots" id="heroDots">
+    <button class="active" data-slide="0" aria-label="Slide 1"></button>
+    <button data-slide="1" aria-label="Slide 2"></button>
+    <button data-slide="2" aria-label="Slide 3"></button>
+  </div>
+
+</section>
+
+<!-- IMPACT NUMBERS -->
+<section class="impact">
+  <div class="impact-item">
+    <div class="impact-number">500+</div>
+    <div class="impact-label">Children helped</div>
+  </div>
+  <div class="impact-item">
+    <div class="impact-number">45+</div>
+    <div class="impact-label">Projects completed</div>
+  </div>
+  <div class="impact-item">
+    <div class="impact-number">20</div>
+    <div class="impact-label">Years of service</div>
+  </div>
+</section>
+
+<main class="article">
+
+  <p class="lead">
+    Every child at Helping Hands Foundation has a story. A child who lost a parent to HIV/AIDS.
+    A child found alone and malnourished in a Nairobi informal settlement.
+    A child whose family could no longer cope. A child who had nowhere to go.
+  </p>
+
+  <p class="lead">
+    <strong>When you sponsor a child in Kenya through Helping Hands Foundation, you change that story.</strong>
+  </p>
+
+  <p>
+    Your monthly sponsorship funds everything that child needs to survive,
+    grow and thrive — food, safe shelter, school fees, medical care, counselling
+    and the stable, loving environment every child deserves. You will know their
+    name. You will receive updates on their progress. And they will know that
+    someone, somewhere, believes in them.
+  </p>
+
+  <p>
+    Child sponsorship through Helping Hands Foundation is one of the most direct, transparent and
+    impactful ways to support vulnerable children in Kenya. Join us.
+  </p>
+
+  <h2 id="about" class="photo-band" style="background-image: url('/images/section about.jpg');">
+    What Is Helping Hands Foundation's Child Sponsorship Programme in Kenya?
+  </h2>
+
+  <p>
+    Helping Hands Foundation's child sponsorship programme connects generous individuals, families,
+    churches and organisations around the world directly with a named child in
+    Helping Hands Foundation's care in <strong>Kangundo, Machakos County</strong> — 60 km east of Nairobi.
+  </p>
+
+  <p>
+    Unlike general charity donations, child sponsorship is personal. You are
+    matched with a specific child. You receive their story, their photograph and
+    regular updates on how your support is changing their life. Your child knows
+    who you are. Many sponsors and children build meaningful long-term
+    relationships that last well beyond the child's time at Helping Hands Foundation.
+  </p>
+
+  <p>
+    Helping Hands Foundation's child sponsorship programme in Kenya is fully managed, transparent
+    and accountable. All funds are directed to the child's direct costs of care
+    and are reported on regularly.
+  </p>
+
+  <h2 id="covers" class="photo-band" style="background-image: url('/images/section covers.jpg');">
+    What Does Your Child Sponsorship Cover?
+  </h2>
+
+  <p>
+    When you sponsor a child in Kenya through Helping Hands Foundation, your monthly gift covers
+    the full cost of that child's care, including:
+  </p>
+
+  <h3>Food and Nutrition</h3>
+  <p>
+    Three nutritious meals per day, daily snacks and access to clean drinking
+    water from Helping Hands Foundation's on-site borehole. Good nutrition is the foundation of a
+    child's physical and cognitive development — and for children managing
+    HIV/AIDS, it is medically critical.
+  </p>
+
+  <h3>Safe Shelter and Daily Care</h3>
+  <p>
+    A secure, clean dormitory, bedding, clothing, personal hygiene supplies and
+    24-hour pastoral care from Helping Hands Foundation's trained residential staff. For many
+    children in our programme, this is the first stable home they have ever known.
+  </p>
+
+  <h3>Education at Dhamini School</h3>
+  <p>
+    School fees, uniforms, exercise books, stationery and all learning materials
+    for enrolment at <strong>Dhamini School</strong> — Helping Hands Foundation's on-site primary
+    school in Kangundo. Every sponsored child attends school every day. Your
+    sponsorship ensures that poverty or ill health is never a barrier to education.
+  </p>
+
+  <h3>Healthcare and HIV/AIDS Treatment</h3>
+  <p>
+    Full medical care at <strong>St. Hannah Community Clinic</strong>, including
+    routine health monitoring, ARV treatment for children living with HIV,
+    vaccinations, dental care and emergency medical support. For HIV-positive
+    children, consistent access to ARV medication is life-sustaining — your
+    sponsorship makes it possible.
+  </p>
+
+  <h3>Psychosocial Support and Counselling</h3>
+  <p>
+    Individual and group counselling sessions, therapeutic activities and
+    mentorship from Helping Hands Foundation's trained psychosocial staff. Many children in our
+    care carry the weight of bereavement, trauma and HIV-related stigma. Your
+    sponsorship funds the emotional care that helps them heal.
+  </p>
+
+  <h3>Extracurricular Activities and Enrichment</h3>
+  <p>
+    Music, acrobatics, dance, arts and sports — activities that build confidence,
+    creativity, teamwork and joy. At Helping Hands Foundation, we believe childhood should be more
+    than survival. Your sponsorship gives children the chance to discover their
+    talents and simply be children.
+  </p>
+
+  <h2 id="levels" class="photo-band" style="background-image: url('/images/children playing.jpg');">
+    How Much Does It Cost to Sponsor a Child in Kenya?
+  </h2>
+
+  <p>
+    Helping Hands Foundation's child sponsorship programme in Kenya is designed to be accessible to
+    individuals, families, churches and organisations of all sizes.
+  </p>
+
+  <table class="price-table">
+    <thead>
+      <tr>
+        <th>Sponsorship Level</th>
+        <th>Monthly Amount</th>
+        <th>What It Covers</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="level">Full Sponsorship</td>
+        <td class="amount">KES 8,000<br><span style="color:#888;font-weight:400;font-size:13px;">USD 62</span></td>
+        <td>Complete cost of one child's care — food, shelter, school, medical, psychosocial and enrichment</td>
+        <td class="cta-cell"><a href="/campaign.html?slug=sponsor-full">Sponsor</a></td>
+      </tr>
+      <tr>
+        <td class="level">Education Sponsorship</td>
+        <td class="amount">KES 3,500<br><span style="color:#888;font-weight:400;font-size:13px;">USD 27</span></td>
+        <td>School fees, uniforms and all learning materials at Dhamini School</td>
+        <td class="cta-cell"><a href="/campaign.html?slug=sponsor-education">Sponsor</a></td>
+      </tr>
+      <tr>
+        <td class="level">Medical Sponsorship</td>
+        <td class="amount">KES 2,500<br><span style="color:#888;font-weight:400;font-size:13px;">USD 19</span></td>
+        <td>Full healthcare and ARV treatment at St. Hannah Community Clinic</td>
+        <td class="cta-cell"><a href="/campaign.html?slug=sponsor-medical">Sponsor</a></td>
+      </tr>
+      <tr>
+        <td class="level">Nutrition Sponsorship</td>
+        <td class="amount">KES 2,000<br><span style="color:#888;font-weight:400;font-size:13px;">USD 15</span></td>
+        <td>Three daily meals and clean water for one child</td>
+        <td class="cta-cell"><a href="/campaign.html?slug=sponsor-nutrition">Sponsor</a></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    All sponsorship levels are meaningful. If full sponsorship is not possible
+    right now, a partial sponsorship combined with contributions from other
+    supporters ensures every child receives complete care.
+  </p>
+
+  <p>
+    For group sponsorship — churches, schools, companies or community groups
+    pooling contributions — contact
+    <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;text-decoration:underline;">info@helpinghandsfoundation.org</a>
+    to arrange a tailored giving plan.
+  </p>
+
+  <h2 id="how" class="photo-band" style="background-image: url('/images/how.jpg');">
+    How to Sponsor a Child in Kenya Through Helping Hands Foundation
+  </h2>
+
+  <p>
+    Sponsoring a child through Helping Hands Foundation is straightforward, transparent and takes
+    just a few minutes to set up.
+  </p>
+
+  <ol class="steps-list">
+    <li>
+      <strong>Choose your sponsorship level</strong>
+      <p>Decide how much you would like to give monthly and which aspect of care you would like to fund — or opt for full sponsorship to cover everything.</p>
+    </li>
+    <li>
+      <strong>Register your sponsorship</strong>
+      <p>Complete the sponsorship form at <a href="https://helpinghandsfoundation.org/sponsor-a-child" style="color:#1b5e20;text-decoration:underline;">helpinghandsfoundation.org/sponsor-a-child</a> or email <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;text-decoration:underline;">info@helpinghandsfoundation.org</a> with your name, contact details and chosen sponsorship level.</p>
+    </li>
+    <li>
+      <strong>Be matched with your child</strong>
+      <p>Helping Hands Foundation will match you with a child whose needs align with your sponsorship level. You will receive your child's profile — their name, age, photograph, story and a note about their life at Helping Hands Foundation.</p>
+    </li>
+    <li>
+      <strong>Set up your monthly gift</strong>
+      <p>Pay via M-Pesa, bank transfer, PayPal or card payment. Helping Hands Foundation's finance team will confirm receipt of every payment and issue regular acknowledgements.</p>
+    </li>
+    <li>
+      <strong>Stay connected</strong>
+      <p>Receive termly updates on your sponsored child — their school progress, health milestones, activities and life at Helping Hands Foundation. Write to your child if you wish. Some sponsors visit Helping Hands Foundation in person to meet their child — you are always welcome.</p>
+    </li>
+  </ol>
+
+  <h2>Who Are the Children You Will Be Sponsoring?</h2>
+
+  <p>
+    The children at Helping Hands Foundation come from some of the most difficult circumstances in
+    Kenya. They include:
+  </p>
+
+  <h3>Children orphaned by HIV/AIDS</h3>
+  <p>
+    Children who have lost one or both parents to AIDS and who have no family
+    member able to care for them. Many arrived at Helping Hands Foundation malnourished, unschooled
+    and without access to the ARV medication they need to survive.
+  </p>
+
+  <h3>Children living with HIV</h3>
+  <p>
+    Children who were born with HIV or contracted it in infancy and who require
+    consistent medical management, specialist care and a stigma-free environment
+    in order to live full, healthy lives.
+  </p>
+
+  <h3>Children from Nairobi's informal settlements</h3>
+  <p>
+    Children rescued from situations of neglect, abuse or extreme poverty in
+    areas including Kibera, Mathare, Mukuru, Korogocho and Eastlands — brought
+    to Helping Hands Foundation when no safer option existed in the city.
+  </p>
+
+  <h3>Children from across Machakos County</h3>
+  <p>
+    Children from Kangundo, Mavoko, Athi River, Mwala and surrounding areas who
+    were identified by social workers, area chiefs or community members as being
+    at acute risk.
+  </p>
+
+  <h3>Children who fell through the system</h3>
+  <p>
+    Children excluded from government OVC programmes due to HIV status,
+    administrative barriers or simply being missed. Helping Hands Foundation accepts those whom no
+    other institution will take.
+  </p>
+
+  <h2>What Happens When Your Sponsored Child Leaves Helping Hands Foundation?</h2>
+
+  <p>
+    Helping Hands Foundation's goal is not permanent institutionalisation — it is to prepare every
+    child for a safe, independent and fulfilled life. When a sponsored child is
+    ready to leave Helping Hands Foundation, the centre works to ensure a strong transition, which
+    may include:
+  </p>
+
+  <ul>
+    <li><strong>Family reintegration</strong> — Returning to a rehabilitated family member who has received parenting support, economic empowerment and follow-up from Helping Hands Foundation's community team</li>
+    <li><strong>Secondary school placement</strong> — Supporting older children to transition to secondary school, including boarding school sponsorship where needed</li>
+    <li><strong>Vocational training</strong> — Connecting young adults with skills training and livelihood opportunities in Nairobi and Machakos County</li>
+    <li><strong>Community follow-up</strong> — Maintaining contact and support after leaving to ensure the child does not return to a situation of vulnerability</li>
+  </ul>
+
+  <p>
+    Your sponsorship does not just cover a child's time at Helping Hands Foundation. It builds the
+    foundation for everything that comes after.
+  </p>
+
+  <h2>Why Sponsor a Child Through Helping Hands Foundation Kenya?</h2>
+
+  <p>There are many child sponsorship programmes in Kenya. Here is why Helping Hands Foundation is the right choice:</p>
+
+  <ul>
+    <li><strong>Fully registered and accountable</strong> — Helping Hands Foundation is a registered CCI under Kenya's Children's Act. Your funds are managed transparently and accounted for in full.</li>
+    <li><strong>Direct impact</strong> — Your sponsorship is matched to a specific named child. You always know exactly where your money is going and who it is helping.</li>
+    <li><strong>Specialist HIV care</strong> — Helping Hands Foundation is one of very few children's homes in Kenya providing residential HIV/AIDS specialist care. Your sponsorship supports children that most institutions will not accept.</li>
+    <li><strong>Locally led, nearly 20 years of experience</strong> — Founded by Kenyan Christine Wambui in 2005, Helping Hands Foundation is deeply rooted in the community it serves. No overhead-heavy international bureaucracy — just direct, expert, local child welfare.</li>
+    <li><strong>A relationship, not just a transaction</strong> — Helping Hands Foundation's sponsorship model is built on genuine connection between sponsor and child. You are not just giving money. You are becoming part of a child's story.</li>
+  </ul>
+
+  <h2 id="faq" class="photo-band" style="background-image: url('/images/faq.jpg');">
+    Frequently Asked Questions
+  </h2>
+
+  <div class="faq">
+    <details>
+      <summary>Can I choose which child I sponsor in Kenya?</summary>
+      <p>Helping Hands Foundation does its best to match sponsors with children based on your preferences — age, gender or particular circumstances. However, final matching is determined by Helping Hands Foundation to ensure equity across all children in care. Contact <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;">info@helpinghandsfoundation.org</a> to discuss your preferences.</p>
+    </details>
+
+    <details>
+      <summary>How often will I receive updates on my sponsored child?</summary>
+      <p>Sponsors receive a full update every school term — three times per year — including a written report on the child's academic progress, health status and life at Helping Hands Foundation, plus a recent photograph. Additional updates are shared at special milestones such as school graduation.</p>
+    </details>
+
+    <details>
+      <summary>Can I write to or visit my sponsored child in Kenya?</summary>
+      <p>Yes. Helping Hands Foundation encourages communication between sponsors and children, subject to child safeguarding guidelines. Letters, cards and small gifts are welcome. Sponsors wishing to visit Helping Hands Foundation in Kangundo should contact <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;">info@helpinghandsfoundation.org</a> to arrange a visit in advance.</p>
+    </details>
+
+    <details>
+      <summary>What happens if my sponsored child leaves Helping Hands Foundation?</summary>
+      <p>If a child is reintegrated with family or transitions to secondary school during your sponsorship period, Helping Hands Foundation will notify you and offer you the opportunity to continue sponsoring another child or to redirect your gift to Helping Hands Foundation's general care fund.</p>
+    </details>
+
+    <details>
+      <summary>Is my child sponsorship tax deductible?</summary>
+      <p>This depends on your country of residence. Helping Hands Foundation can provide documentation of your giving for tax purposes where applicable. Contact <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;">info@helpinghandsfoundation.org</a> for a donation receipt or letter of acknowledgement.</p>
+    </details>
+
+    <details>
+      <summary>Can a church or organisation sponsor multiple children in Kenya?</summary>
+      <p>Yes. Group and institutional sponsorship is warmly welcomed. Churches, schools, businesses and community organisations can sponsor one or more children together. Helping Hands Foundation will provide tailored reporting and recognition for group sponsors. Contact <a href="mailto:info@helpinghandsfoundation.org" style="color:#1b5e20;">info@helpinghandsfoundation.org</a> to set up a group sponsorship plan.</p>
+    </details>
+
+    <details>
+      <summary>How do I know my money is being used correctly?</summary>
+      <p>Helping Hands Foundation is a registered CCI and operates with full financial transparency. Sponsors receive itemised updates on how their contribution is spent. Helping Hands Foundation's accounts are available to review and the centre welcomes donor visits at any time by appointment.</p>
+    </details>
+  </div>
+
+  <h2 class="photo-band" style="background-image: url('/images/section-cta.jpg');">
+    Start Your Child Sponsorship in Kenya Today
+  </h2>
+
+  <p>
+    A child at Helping Hands Foundation is waiting for someone like you. Someone who believes that
+    where a child is born — and what disease has touched their family — should
+    not determine what kind of life they get to live.
+  </p>
+
+  <p class="pull">
+    Sponsor a child in Kenya today.<br>
+    Give them food. Give them school. Give them medical care.<br>
+    Give them the knowledge that someone in the world sees them, values them
+    and is cheering them on.
+  </p>
+
+  <div class="contact-box" id="contact">
+    <h2>Get in Touch</h2>
+    <div class="contact-lines">
+      <p><strong>Sponsor a child:</strong> <a href="https://helpinghandsfoundation.org/sponsor-a-child">helpinghandsfoundation.org/sponsor-a-child</a></p>
+      <p><strong>Email:</strong> <a href="mailto:info@helpinghandsfoundation.org">info@helpinghandsfoundation.org</a></p>
+      <p><strong>Call:</strong> <a href="tel:+254707383000">+254 707 383 000</a></p>
+      <p><strong>Visit:</strong> Mutalia Area, Kangundo Constituency, Machakos County, Kenya</p>
+    </div>
+    <p style="font-size:14px;opacity:.8;margin-top:24px;">
+      Helping Hands Foundation.<br>
+      Registered Charitable Children's Institution under Kenya's Children's Act.<br>
+      Caring for Kenya's most vulnerable children since 2005.
+    </p>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="logo">🤝 Helping Hands Foundation</div>
+      <p class="footer-muted">Helping Hands Foundation — caring for Kenya's most vulnerable children since 2005.</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p>+254 707 383 000</p>
+      <p>info@helpinghandsfoundation.org</p>
+      <p>Mutalia Area, Kangundo, Machakos County</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="#about">About</a></p>
+      <p><a href="#levels">Sponsorship Levels</a></p>
+      <p><a href="#how">How It Works</a></p>
+      <p><a href="#faq">FAQ</a></p>
+      <p><a href="#contact">Contact</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © <span id="year"></span> Helping Hands Foundation. Registered CCI under Kenya's Children's Act. All donations processed via M-Pesa.
+  </div>
+</footer>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ===== Hero Slideshow ===== */
+(function() {
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('#heroDots button');
+  let current = 0;
+  let timer;
+
+  if (!slides.length) return;
+
+  function goTo(i) {
+    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
+    dots.forEach((d, idx) => d.classList.toggle('active', idx === i));
+    current = i;
+  }
+
+  function next() {
+    goTo((current + 1) % slides.length);
+  }
+
+  function start() {
+    timer = setInterval(next, 5000);
+  }
+
+  function restart() {
+    clearInterval(timer);
+    start();
+  }
+
+  dots.forEach(d => {
+    d.addEventListener('click', () => {
+      goTo(Number(d.dataset.slide));
+      restart();
+    });
+  });
+
+  if (slides.length > 1) start();
+})();
+
+/* ===== Scroll Reveal (skip the photo bands) ===== */
+(function() {
+  const targets = document.querySelectorAll(
+    '.article > p, .article > h3, .article > ul, .article > ol, ' +
+    '.steps-list li, .price-table, .faq details, .contact-box, .pull, ' +
+    '.impact, .impact-item, h2:not(.photo-band)'
+  );
+
+  targets.forEach((el, i) => {
+    el.classList.add('reveal');
+    if (i % 3 === 1) el.classList.add('reveal-delay-1');
+    if (i % 3 === 2) el.classList.add('reveal-delay-2');
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+  targets.forEach(el => observer.observe(el));
+})();
+
+/* ===== Scroll-linked background ===== */
+(function() {
+  const bg = document.getElementById('pageBg');
+  if (!bg) return;
+
+  const images = [
+    '/images/photo1.jpg',
+    '/images/photo2.jpg',
+    '/images/photo3.jpg',
+    '/images/section-about.jpg',
+    '/images/section-covers.jpg',
+    '/images/section-levels.jpg',
+    '/images/section-how.jpg',
+    '/images/section-faq.jpg'
+  ];
+
+  // Preload so the swap is instant
+  images.forEach(src => { const i = new Image(); i.src = src; });
+
+  // Set initial
+  bg.style.backgroundImage = `url('${images[0]}')`;
+  let currentIndex = 0;
+
+  // Which section triggers which image
+  const triggers = [
+    { el: document.querySelector('#about'),    index: 3 },
+    { el: document.querySelector('#covers'),   index: 4 },
+    { el: document.querySelector('#levels'),   index: 5 },
+    { el: document.querySelector('#how'),      index: 6 },
+    { el: document.querySelector('#faq'),      index: 7 }
+  ].filter(t => t.el);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const trigger = triggers.find(t => t.el === e.target);
+      if (!trigger || trigger.index === currentIndex) return;
+
+      // Cross-fade: fade out, swap image, fade back in
+      bg.classList.add('fade');
+      setTimeout(() => {
+        bg.style.backgroundImage = `url('${images[trigger.index]}')`;
+        bg.classList.remove('fade');
+        currentIndex = trigger.index;
+      }, 500);
+    });
+  }, {
+    threshold: 0.4,
+    rootMargin: '-30% 0px -30% 0px'
+  });
+
+  triggers.forEach(t => observer.observe(t.el));
+})();
+</script>
+</body>
+</html>

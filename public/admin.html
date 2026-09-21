@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — KidsFund</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.admin-shell { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* Login */
+.login-box {
+  max-width: 400px; margin: 80px auto; background: white;
+  padding: 40px; border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.login-box h1 { color: #1b5e20; margin-bottom: 8px; }
+.login-box p { color: #666; font-size: 14px; margin-bottom: 24px; }
+.login-box label { display: block; font-size: 13px; color: #444; margin: 14px 0 6px; font-weight: 500; }
+.login-box input {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd;
+  border-radius: 8px; font-size: 15px;
+}
+.login-msg { margin-top: 14px; font-size: 13px; color: #c62828; }
+
+/* Dashboard header */
+.admin-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #eee;
+}
+.admin-header h1 { color: #1b5e20; font-size: 24px; }
+.admin-header .user { color: #666; font-size: 14px; margin-right: 16px; }
+.btn-sm {
+  padding: 8px 14px; font-size: 13px; border-radius: 6px;
+  border: 1px solid #ddd; background: white; cursor: pointer; color: #444;
+}
+.btn-sm:hover { border-color: #4caf50; color: #4caf50; }
+
+/* Tabs */
+.tabs {
+  display: flex; gap: 4px; border-bottom: 1px solid #eee;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.tabs button {
+  padding: 12px 20px; background: none; border: none;
+  border-bottom: 2px solid transparent; cursor: pointer;
+  font-size: 14px; color: #666; font-weight: 500;
+}
+.tabs button.active { color: #1b5e20; border-bottom-color: #4caf50; }
+.tabs button:hover { color: #1b5e20; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* Stat cards */
+.stat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px; margin-bottom: 24px;
+}
+.stat-card {
+  background: white; padding: 20px; border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.stat-card .label {
+  font-size: 12px; text-transform: uppercase; color: #888;
+  letter-spacing: .5px; margin-bottom: 8px;
+}
+.stat-card .value { font-size: 28px; font-weight: 700; color: #1b5e20; }
+
+/* Tables */
+.data-table {
+  width: 100%; background: white; border-radius: 12px;
+  overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-collapse: collapse;
+}
+.data-table th {
+  text-align: left; padding: 14px 16px; font-size: 12px;
+  text-transform: uppercase; color: #666; letter-spacing: .5px;
+  background: #fafafa; border-bottom: 1px solid #eee;
+}
+.data-table td {
+  padding: 14px 16px; font-size: 14px; border-bottom: 1px solid #f0f0f0;
+  vertical-align: top;
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.badge {
+  display: inline-block; padding: 3px 8px; border-radius: 4px;
+  font-size: 11px; font-weight: 600; text-transform: uppercase;
+}
+.badge.approved { background: #e8f5e9; color: #1b5e20; }
+.badge.pending { background: #fff3e0; color: #e65100; }
+.badge.rejected { background: #ffebee; color: #c62828; }
+.badge.completed { background: #e8f5e9; color: #1b5e20; }
+.badge.failed { background: #ffebee; color: #c62828; }
+.badge.new { background: #e3f2fd; color: #0d47a1; }
+
+.btn-approve { background: #4caf50; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.btn-reject { background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+.btn-delete { background: white; color: #c62828; border: 1px solid #ffcdd2; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; }
+
+/* Forms */
+.form-card {
+  background: white; padding: 24px; border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06); margin-bottom: 24px;
+}
+.form-card h2 { font-size: 18px; margin-bottom: 16px; color: #1b5e20; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.form-card label {
+  display: block; font-size: 13px; color: #444;
+  margin: 12px 0 6px; font-weight: 500;
+}
+.form-card input, .form-card textarea, .form-card select {
+  width: 100%; padding: 10px 12px; border: 1px solid #ddd;
+  border-radius: 8px; font-size: 14px; font-family: inherit;
+}
+.form-card textarea { resize: vertical; min-height: 80px; }
+
+.msg-box {
+  margin-top: 12px; padding: 12px; border-radius: 8px;
+  font-size: 13px; display: none;
+}
+.msg-box.success { background: #e8f5e9; color: #1b5e20; display: block; }
+.msg-box.error { background: #ffebee; color: #c62828; display: block; }
+
+.empty { text-align: center; padding: 40px; color: #888; background: white; border-radius: 12px; }
+
+@media (max-width: 700px) {
+  .form-row { grid-template-columns: 1fr; }
+  .data-table { font-size: 12px; }
+  .data-table th, .data-table td { padding: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN VIEW -->
+<div id="loginView" class="admin-shell">
+  <div class="login-box">
+    <h1>🌱 KidsFund Admin</h1>
+    <p>Team members only.</p>
+    <form id="loginForm">
+      <label>Username</label>
+      <input name="username" required autofocus>
+      <label>Password</label>
+      <input name="password" type="password" required>
+      <button type="submit" class="btn-primary" style="margin-top:20px;">Sign In</button>
+      <div id="loginMsg" class="login-msg"></div>
+    </form>
+  </div>
+</div>
+
+<!-- DASHBOARD VIEW -->
+<div id="dashboardView" class="admin-shell" style="display:none;">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <div>
+      <span class="user" id="currentUser"></span>
+      <button class="btn-sm" onclick="logout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="overview">Overview</button>
+    <button data-tab="campaigns">Campaigns</button>
+    <button data-tab="projects">Past Projects</button>
+    <button data-tab="donations">Donations</button>
+    <button data-tab="messages">Messages</button>
+    <button data-tab="settings">Settings</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div class="tab-panel active" id="tab-overview">
+    <div class="stat-grid" id="statGrid"></div>
+    <div class="form-card">
+      <h2>Quick Actions</h2>
+      <p style="color:#666;font-size:14px;margin-bottom:16px;">
+        Use the tabs above to manage campaigns, add past projects, read messages, and update site settings.
+      </p>
+    </div>
+  </div>
+
+  <!-- CAMPAIGNS -->
+  <div class="tab-panel" id="tab-campaigns">
+    <div class="form-card">
+      <h2>Create New Campaign</h2>
+      <form id="campaignForm">
+        <div class="form-row">
+          <div>
+            <label>Title *</label>
+            <input name="title" required>
+          </div>
+          <div>
+            <label>Category</label>
+            <select name="category">
+              <option>Education</option>
+              <option>Health</option>
+              <option>Nutrition</option>
+              <option>Shelter</option>
+              <option>Emergency</option>
+              <option>General</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Child's Name</label>
+            <input name="child_name">
+          </div>
+          <div>
+            <label>Child's Age</label>
+            <input name="child_age" type="number" min="0" max="17">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Location</label>
+            <input name="location">
+          </div>
+          <div>
+            <label>Funding Goal (KES) *</label>
+            <input name="goal_amount" type="number" min="100" required>
+          </div>
+        </div>
+
+        <label>Story *</label>
+        <textarea name="story" required></textarea>
+
+        <label style="display:flex;align-items:center;gap:8px;margin-top:16px;">
+          <input type="checkbox" name="guardian_consent" style="width:auto;">
+          Guardian consent confirmed
+        </label>
+
+        <button type="submit" class="btn-primary" style="margin-top:16px;">Create Campaign</button>
+        <div id="campaignMsg" class="msg-box"></div>
+      </form>
+    </div>
+
+    <h2 style="font-size:18px;margin:24px 0 12px;color:#1b5e20;">All Campaigns</h2>
+    <div id="campaignsList"></div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="tab-panel" id="tab-projects">
+    <div class="form-card">
+      <h2>Add Past Project</h2>
+      <form id="projectForm">
+        <div class="form-row">
+          <div>
+            <label>Title *</label>
+            <input name="title" required>
+          </div>
+          <div>
+            <label>Year</label>
+            <input name="year" type="number" min="2000" max="2100" value="2024">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Location</label>
+            <input name="location">
+          </div>
+          <div>
+            <label>Children Helped</label>
+            <input name="children_helped" type="number" min="0">
+          </div>
+        </div>
+
+        <label>Description</label>
+        <textarea name="description" placeholder="What was the project? Who did it help?"></textarea>
+
+        <label>Outcome</label>
+        <textarea name="outcome" placeholder="What was the result? e.g. 'All 30 children returned to school for the full year.'"></textarea>
+
+        <button type="submit" class="btn-primary" style="margin-top:16px;">Add Project</button>
+        <div id="projectMsg" class="msg-box"></div>
+      </form>
+    </div>
+
+    <h2 style="font-size:18px;margin:24px 0 12px;color:#1b5e20;">All Projects</h2>
+    <div id="projectsList"></div>
+  </div>
+
+  <!-- DONATIONS -->
+  <div class="tab-panel" id="tab-donations">
+    <h2 style="font-size:18px;margin-bottom:12px;color:#1b5e20;">Recent Donations</h2>
+    <div id="donationsList"></div>
+  </div>
+
+  <!-- MESSAGES -->
+  <div class="tab-panel" id="tab-messages">
+    <h2 style="font-size:18px;margin-bottom:12px;color:#1b5e20;">Contact Messages</h2>
+    <div id="messagesList"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="form-card">
+      <h2>Site Settings</h2>
+      <form id="settingsForm">
+        <label>Organisation Name</label>
+        <input name="org_name">
+
+        <label>Tagline (shown on homepage hero)</label>
+        <input name="tagline">
+
+        <label>Mission (shown under hero)</label>
+        <textarea name="mission"></textarea>
+
+        <div class="form-row">
+          <div>
+            <label>Founded Year</label>
+            <input name="founded_year" type="number">
+          </div>
+          <div>
+            <label>Years Active</label>
+            <input name="years_active" type="number">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label>Children Helped (number)</label>
+            <input name="children_helped">
+          </div>
+          <div>
+            <label>Projects Completed (number)</label>
+            <input name="projects_completed">
+          </div>
+        </div>
+
+        <label>Phone</label>
+        <input name="phone">
+
+        <label>Email</label>
+        <input name="email" type="email">
+
+        <label>Address</label>
+        <input name="address">
+
+        <button type="submit" class="btn-primary" style="margin-top:16px;">Save Settings</button>
+        <div id="settingsMsg" class="msg-box"></div>
+      </form>
+    </div>
+
+    <div class="form-card">
+      <h2>Change Admin Password</h2>
+      <form id="passwordForm">
+        <label>Current Password</label>
+        <input name="current" type="password" required>
+        <label>New Password</label>
+        <input name="newpass" type="password" required minlength="6">
+        <button type="submit" class="btn-primary" style="margin-top:16px;">Update Password</button>
+        <div id="passwordMsg" class="msg-box"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============ UTILS ============
+function $(id) { return document.getElementById(id); }
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function fmtKES(n) { return 'KES ' + Number(n || 0).toLocaleString(); }
+function fmtDate(s) { return s ? new Date(s).toLocaleDateString() : ''; }
+
+async function api(path, opts = {}) {
+  const res = await fetch('/api' + path, {
+    ...opts,
+    headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) }
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data;
+}
+
+// ============ AUTH ============
+async function checkAuth() {
+  try {
+    await api('/admin/stats');
+    showDashboard();
+  } catch {
+    showLogin();
+  }
+}
+function showLogin() {
+  $('loginView').style.display = 'block';
+  $('dashboardView').style.display = 'none';
+}
+function showDashboard() {
+  $('loginView').style.display = 'none';
+  $('dashboardView').style.display = 'block';
+  loadOverview();
+  loadCampaigns();
+  loadProjects();
+  loadDonations();
+  loadMessages();
+  loadSettings();
+}
+
+$('loginForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const msg = $('loginMsg');
+  try {
+    await api('/admin/login', { method: 'POST', body: JSON.stringify(data) });
+    showDashboard();
+  } catch (err) {
+    msg.textContent = err.message;
+  }
+});
+
+async function logout() {
+  await api('/admin/logout', { method: 'POST' });
+  location.reload();
+}
+
+// ============ TABS ============
+document.querySelectorAll('.tabs button').forEach(b => {
+  b.addEventListener('click', () => {
+    document.querySelectorAll('.tabs button').forEach(x => x.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    $('tab-' + b.dataset.tab).classList.add('active');
+  });
+});
+
+// ============ OVERVIEW ============
+async function loadOverview() {
+  const s = await api('/admin/stats');
+  $('statGrid').innerHTML = `
+    <div class="stat-card"><div class="label">Active Campaigns</div><div class="value">${s.totalCampaigns}</div></div>
+    <div class="stat-card"><div class="label">Pending Review</div><div class="value">${s.pending}</div></div>
+    <div class="stat-card"><div class="label">Total Raised</div><div class="value">${fmtKES(s.totalRaised)}</div></div>
+    <div class="stat-card"><div class="label">Donations</div><div class="value">${s.totalDonations}</div></div>
+  `;
+}
+
+// ============ CAMPAIGNS ============
+async function loadCampaigns() {
+  const list = await api('/admin/campaigns');
+  if (!list.length) {
+    $('campaignsList').innerHTML = '<div class="empty">No campaigns yet.</div>';
+    return;
+  }
+  $('campaignsList').innerHTML = `
+    <table class="data-table">
+      <thead><tr>
+        <th>Title</th><th>Category</th><th>Goal</th><th>Raised</th><th>Status</th><th>Actions</th>
+      </tr></thead>
+      <tbody>
+        ${list.map(c => `
+          <tr>
+            <td><strong>${escapeHtml(c.title)}</strong>${c.location ? `<br><span style="color:#888;font-size:12px;">${escapeHtml(c.location)}</span>` : ''}</td>
+            <td>${escapeHtml(c.category || '')}</td>
+            <td>${fmtKES(c.goal_amount)}</td>
+            <td>${fmtKES(c.raised_amount)}</td>
+            <td><span class="badge ${c.status}">${c.status}</span></td>
+            <td>
+              <div class="actions">
+                ${c.status !== 'approved' ? `<button class="btn-approve" onclick="approveCampaign(${c.id})">Approve</button>` : ''}
+                ${c.status !== 'rejected' ? `<button class="btn-reject" onclick="rejectCampaign(${c.id})">Reject</button>` : ''}
+              </div>
+            </td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+window.approveCampaign = async (id) => {
+  await api(`/admin/campaigns/${id}/approve`, { method: 'POST' });
+  loadCampaigns(); loadOverview();
+};
+window.rejectCampaign = async (id) => {
+  await api(`/admin/campaigns/${id}/reject`, { method: 'POST' });
+  loadCampaigns(); loadOverview();
+};
+
+$('campaignForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  data.goal_amount = Number(data.goal_amount);
+  data.child_age = data.child_age ? Number(data.child_age) : null;
+  data.guardian_consent = e.target.guardian_consent.checked;
+  const msg = $('campaignMsg');
+
+  try {
+    const out = await api('/campaigns', { method: 'POST', body: JSON.stringify(data) });
+    // Auto-approve since it's an admin creating it
+    await api(`/admin/campaigns/${out.id}/approve`, { method: 'POST' });
+    msg.textContent = '✓ Campaign created and approved.';
+    msg.className = 'msg-box success';
+    e.target.reset();
+    loadCampaigns(); loadOverview();
+  } catch (err) {
+    msg.textContent = err.message;
+    msg.className = 'msg-box error';
+  }
+});
+
+// ============ PROJECTS ============
+async function loadProjects() {
+  const list = await api('/site/projects');
+  if (!list.length) {
+    $('projectsList').innerHTML = '<div class="empty">No projects yet. Add one above.</div>';
+    return;
+  }
+  $('projectsList').innerHTML = `
+    <table class="data-table">
+      <thead><tr>
+        <th>Year</th><th>Title</th><th>Location</th><th>Helped</th><th>Actions</th>
+      </tr></thead>
+      <tbody>
+        ${list.map(p => `
+          <tr>
+            <td>${p.year || '—'}</td>
+            <td><strong>${escapeHtml(p.title)}</strong></td>
+            <td>${escapeHtml(p.location || '—')}</td>
+            <td>${p.children_helped || '—'}</td>
+            <td><button class="btn-delete" onclick="deleteProject(${p.id})">Delete</button></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+window.deleteProject = async (id) => {
+  if (!confirm('Delete this project?')) return;
+  await api(`/site/projects/${id}`, { method: 'DELETE' });
+  loadProjects();
+};
+
+$('projectForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  if (data.year) data.year = Number(data.year);
+  if (data.children_helped) data.children_helped = Number(data.children_helped);
+  const msg = $('projectMsg');
+
+  try {
+    await api('/site/projects', { method: 'POST', body: JSON.stringify(data) });
+    msg.textContent = '✓ Project added.';
+    msg.className = 'msg-box success';
+    e.target.reset();
+    e.target.year.value = new Date().getFullYear();
+    loadProjects();
+  } catch (err) {
+    msg.textContent = err.message;
+    msg.className = 'msg-box error';
+  }
+});
+
+// ============ DONATIONS ============
+async function loadDonations() {
+  const list = await api('/admin/donations');
+  if (!list.length) {
+    $('donationsList').innerHTML = '<div class="empty">No donations yet.</div>';
+    return;
+  }
+  $('donationsList').innerHTML = `
+    <table class="data-table">
+      <thead><tr>
+        <th>Date</th><th>Donor</th><th>Campaign</th><th>Amount</th><th>Receipt</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+        ${list.map(d => `
+          <tr>
+            <td>${fmtDate(d.created_at)}</td>
+            <td>${escapeHtml(d.donor_name || 'Anonymous')}<br><span style="color:#888;font-size:12px;">${escapeHtml(d.donor_phone || '')}</span></td>
+            <td>${escapeHtml(d.campaign_title || '')}</td>
+            <td><strong>${fmtKES(d.amount)}</strong></td>
+            <td>${escapeHtml(d.mpesa_receipt || '—')}</td>
+            <td><span class="badge ${d.status}">${d.status}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+// ============ MESSAGES ============
+async function loadMessages() {
+  const list = await api('/site/messages');
+  if (!list.length) {
+    $('messagesList').innerHTML = '<div class="empty">No messages yet.</div>';
+    return;
+  }
+  $('messagesList').innerHTML = list.map(m => `
+    <div class="form-card" style="margin-bottom:12px;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <strong>${escapeHtml(m.name)}</strong>
+        <span style="color:#888;font-size:13px;">${fmtDate(m.created_at)}</span>
+      </div>
+      <div style="color:#666;font-size:13px;margin-bottom:12px;">
+        ${m.email ? '✉ ' + escapeHtml(m.email) : ''}
+        ${m.phone ? ' · 📞 ' + escapeHtml(m.phone) : ''}
+      </div>
+      <p style="white-space:pre-wrap;color:#333;">${escapeHtml(m.message)}</p>
+    </div>
+  `).join('');
+}
+
+// ============ SETTINGS ============
+async function loadSettings() {
+  const s = await api('/site/settings');
+  const form = $('settingsForm');
+  Object.keys(s).forEach(k => {
+    if (form[k]) form[k].value = s[k];
+  });
+}
+
+$('settingsForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const msg = $('settingsMsg');
+
+  try {
+    for (const [key, value] of Object.entries(data)) {
+      await api('/site/settings', { method: 'POST', body: JSON.stringify({ key, value }) });
+    }
+    msg.textContent = '✓ Settings saved.';
+    msg.className = 'msg-box success';
+  } catch (err) {
+    msg.textContent = err.message;
+    msg.className = 'msg-box error';
+  }
+});
+
+// ============ PASSWORD ============
+$('passwordForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const data = Object.fromEntries(new FormData(e.target));
+  const msg = $('passwordMsg');
+  try {
+    await api('/admin/password', { method: 'POST', body: JSON.stringify(data) });
+    msg.textContent = '✓ Password updated.';
+    msg.className = 'msg-box success';
+    e.target.reset();
+  } catch (err) {
+    msg.textContent = err.message;
+    msg.className = 'msg-box error';
+  }
+});
+
+// Kick off
+checkAuth();
+</script>
+</body>
+</html>

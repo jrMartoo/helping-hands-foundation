@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — KidsFund</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.projects-page { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+.projects-page h1 { font-size: 32px; color: #1b5e20; margin-bottom: 8px; }
+.projects-page .subtitle { color: #666; margin-bottom: 32px; }
+
+.year-filter {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 32px;
+}
+.year-filter button {
+  padding: 8px 16px; border: 1px solid #ddd; background: white;
+  border-radius: 20px; cursor: pointer; font-size: 14px; color: #444;
+}
+.year-filter button:hover { border-color: #4caf50; color: #4caf50; }
+.year-filter button.active {
+  background: #4caf50; border-color: #4caf50; color: white;
+}
+
+.projects-full-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+.project-full-card {
+  background: white; padding: 28px; border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  display: flex; flex-direction: column;
+}
+.project-full-card .year-badge {
+  display: inline-block; background: #e8f5e9; color: #1b5e20;
+  padding: 4px 10px; border-radius: 4px; font-size: 12px; font-weight: 600;
+  margin-bottom: 12px; align-self: flex-start;
+}
+.project-full-card h3 { font-size: 19px; margin-bottom: 8px; color: #1a1a1a; }
+.project-full-card .loc { font-size: 13px; color: #888; margin-bottom: 12px; }
+.project-full-card p { color: #555; font-size: 15px; line-height: 1.7; flex: 1; }
+.project-full-card .outcome {
+  margin-top: 16px; padding: 12px; background: #f1f8e9;
+  border-radius: 8px; font-size: 14px; color: #1b5e20; font-weight: 500;
+}
+.project-full-card .impact-count {
+  margin-top: 12px; font-size: 13px; color: #1b5e20;
+  font-weight: 600; padding-top: 12px; border-top: 1px solid #eee;
+}
+
+.empty-state {
+  text-align: center; padding: 60px 20px; color: #888;
+  background: white; border-radius: 12px;
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">🌱 KidsFund</a>
+  <nav>
+    <a href="/about.html">About</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/#campaigns">Campaigns</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/campaign.html?slug=general-fund" class="btn-outline">Donate</a>
+  </nav>
+</header>
+
+<main class="projects-page">
+  <h1>Our Projects</h1>
+  <p class="subtitle">A record of the work your donations have made possible since 2012.</p>
+
+  <div class="year-filter" id="yearFilter"></div>
+  <div class="projects-full-grid" id="projectsList">
+    <div class="loading">Loading projects...</div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="logo">🌱 KidsFund</div>
+      <p class="footer-muted" id="footerMission"></p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p id="footerPhone">—</p>
+      <p id="footerEmail">—</p>
+      <p id="footerAddress">—</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="/about.html">Our Story</a></p>
+      <p><a href="/projects.html">Projects</a></p>
+      <p><a href="/contact.html">Contact</a></p>
+      <p><a href="/campaign.html?slug=general-fund">Donate</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © <span id="year"></span> KidsFund. Registered charity. All donations processed via M-Pesa.
+  </div>
+</footer>
+
+<script>
+let allProjects = [];
+let activeYear = null;
+
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function loadSettings() {
+  const res = await fetch('/api/site/settings');
+  const s = await res.json();
+  document.getElementById('footerMission').textContent = `Working since ${s.founded_year || '2012'} to support children in our community.`;
+  document.getElementById('footerPhone').textContent = s.phone || '';
+  document.getElementById('footerEmail').textContent = s.email || '';
+  document.getElementById('footerAddress').textContent = s.address || '';
+  document.getElementById('year').textContent = new Date().getFullYear();
+}
+
+async function loadProjects() {
+  const res = await fetch('/api/site/projects');
+  allProjects = await res.json();
+
+  buildYearFilter();
+  renderProjects();
+}
+
+function buildYearFilter() {
+  const years = [...new Set(allProjects.map(p => p.year).filter(Boolean))]
+    .sort((a, b) => b - a);
+
+  const container = document.getElementById('yearFilter');
+  if (!years.length) { container.style.display = 'none'; return; }
+
+  container.innerHTML = `
+    <button class="${activeYear === null ? 'active' : ''}" data-year="">All Years</button>
+    ${years.map(y => `
+      <button class="${activeYear === y ? 'active' : ''}" data-year="${y}">${y}</button>
+    `).join('')}
+  `;
+
+  container.querySelectorAll('button').forEach(b => {
+    b.addEventListener('click', () => {
+      activeYear = b.dataset.year ? Number(b.dataset.year) : null;
+      buildYearFilter();
+      renderProjects();
+    });
+  });
+}
+
+function renderProjects() {
+  const container = document.getElementById('projectsList');
+  const filtered = activeYear
+    ? allProjects.filter(p => p.year === activeYear)
+    : allProjects;
+
+  if (!filtered.length) {
+    container.innerHTML = '<div class="empty-state">No projects to show yet.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(p => `
+    <div class="project-full-card">
+      ${p.year ? `<span class="year-badge">${p.year}</span>` : ''}
+      <h3>${escapeHtml(p.title)}</h3>
+      ${p.location ? `<div class="loc">📍 ${escapeHtml(p.location)}</div>` : ''}
+      <p>${escapeHtml(p.description || '')}</p>
+      ${p.outcome ? `<div class="outcome">${escapeHtml(p.outcome)}</div>` : ''}
+      ${p.children_helped ? `<div class="impact-count">${p.children_helped} children helped</div>` : ''}
+    </div>
+  `).join('');
+}
+
+loadSettings();
+loadProjects();
+</script>
+</body>
+</html>

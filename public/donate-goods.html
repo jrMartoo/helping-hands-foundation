@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate Goods — KidsFund</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.goods-page { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.goods-page h1 { font-size: 32px; color: #1b5e20; margin-bottom: 8px; }
+.goods-page .subtitle { color: #666; margin-bottom: 40px; font-size: 17px; }
+.goods-page h2 {
+  font-size: 22px; color: #1b5e20; margin: 40px 0 16px;
+  padding-bottom: 8px; border-bottom: 2px solid #e8f5e9;
+}
+.goods-page p { font-size: 16px; line-height: 1.7; color: #333; margin-bottom: 16px; }
+
+.needs-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px; margin: 24px 0;
+}
+.need-card {
+  background: white; padding: 16px; border-radius: 10px;
+  border-left: 4px solid #4caf50; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.need-card .cat {
+  font-size: 11px; text-transform: uppercase; color: #888;
+  letter-spacing: .5px; margin-bottom: 6px;
+}
+.need-card .name { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+
+.cannot-accept {
+  background: #fff3e0; border-left: 4px solid #ff9800;
+  padding: 20px; border-radius: 8px; margin: 24px 0;
+}
+.cannot-accept h3 { color: #e65100; margin-bottom: 12px; font-size: 16px; }
+.cannot-accept ul { padding-left: 20px; }
+.cannot-accept li { font-size: 14px; color: #555; margin-bottom: 6px; }
+
+.dropoff-card {
+  background: #f1f8e9; border-radius: 12px; padding: 24px; margin: 24px 0;
+}
+.dropoff-card .row { margin-bottom: 12px; }
+.dropoff-card .label {
+  font-size: 12px; text-transform: uppercase; color: #666;
+  letter-spacing: .5px; margin-bottom: 4px;
+}
+.dropoff-card .value { font-size: 16px; color: #1a1a1a; font-weight: 500; }
+.dropoff-card a { color: #1b5e20; text-decoration: underline; }
+
+.how-it-works { margin: 24px 0; }
+.how-it-works ol { padding-left: 24px; }
+.how-it-works li { font-size: 16px; line-height: 1.7; margin-bottom: 12px; color: #333; }
+
+.cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 32px 0; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">🌱 KidsFund</a>
+  <nav>
+    <a href="/about.html">About</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/donate-goods.html">Donate Goods</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/campaign.html?slug=general-fund" class="btn-outline">Donate Money</a>
+  </nav>
+</header>
+
+<main class="goods-page">
+
+  <h1>Donate Food & Clothes</h1>
+  <p class="subtitle">
+    Money isn't the only way to help. Food, clothes, and other supplies go
+    directly to the children in our home — no middlemen, no delays.
+  </p>
+
+  <h2>What We Need Right Now</h2>
+  <p>
+    These are the items we currently run short of. Anything you can give —
+    even one item — makes a difference.
+  </p>
+
+  <div class="needs-grid" id="needsGrid">
+    <div class="loading">Loading items...</div>
+  </div>
+
+  <h2>What to Bring — and What Not To</h2>
+  <p>
+    We accept most things in usable condition. To keep the children safe and
+    our storage manageable, we <strong>cannot</strong> accept:
+  </p>
+
+  <div class="cannot-accept">
+    <h3>Please do not bring:</h3>
+    <ul>
+      <li>Expired or opened food items</li>
+      <li>Broken, torn, or heavily worn clothing</li>
+      <li>Underwear or socks that have been used</li>
+      <li>Electronics that don't work</li>
+      <li>Furniture we haven't agreed to accept beforehand</li>
+    </ul>
+  </div>
+
+  <h2>Where to Drop Off</h2>
+  <div class="dropoff-card">
+    <div class="row">
+      <div class="label">Address</div>
+      <div class="value" id="dropAddress">—</div>
+    </div>
+    <div class="row">
+      <div class="label">Contact Person</div>
+      <div class="value" id="dropContact">—</div>
+    </div>
+    <div class="row">
+      <div class="label">Hours</div>
+      <div class="value" id="dropHours">—</div>
+    </div>
+    <div class="row">
+      <div class="label">For Large Donations</div>
+      <div class="value">
+        Call us ahead of time and we'll arrange pickup where possible.
+        <a href="/contact.html">Contact us →</a>
+      </div>
+    </div>
+  </div>
+
+  <h2>What Happens to Your Donation</h2>
+  <div class="how-it-works">
+    <ol>
+      <li>You drop off the items (or we arrange pickup for large donations).</li>
+      <li>We log every item we receive — what it was, when it came, who gave it.</li>
+      <li>We distribute it directly to the children in our home, or to families in the community.</li>
+      <li>We share updates and photos so you can see where your gift went.</li>
+    </ol>
+  </div>
+
+  <div class="cta-row">
+    <a href="/contact.html" class="btn-primary" style="max-width:220px;">Arrange a Drop-Off</a>
+    <a href="/campaign.html?slug=general-fund" class="btn-outline" style="padding:12px 24px;">Or Donate Money Instead</a>
+  </div>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="logo">🌱 KidsFund</div>
+      <p class="footer-muted" id="footerMission"></p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p id="footerPhone">—</p>
+      <p id="footerEmail">—</p>
+      <p id="footerAddress">—</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="/about.html">Our Story</a></p>
+      <p><a href="/projects.html">Projects</a></p>
+      <p><a href="/donate-goods.html">Donate Goods</a></p>
+      <p><a href="/campaign.html?slug=general-fund">Donate Money</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © <span id="year"></span> KidsFund. Registered charity. All donations processed via M-Pesa.
+  </div>
+</footer>
+
+<script>
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+async function loadPage() {
+  const res = await fetch('/api/site/settings');
+  const s = await res.json();
+
+  // Footer
+  document.getElementById('footerMission').textContent = `Working since ${s.founded_year || '2012'} to support children in our community.`;
+  document.getElementById('footerPhone').textContent = s.phone || '';
+  document.getElementById('footerEmail').textContent = s.email || '';
+  document.getElementById('footerAddress').textContent = s.address || '';
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Drop-off info
+  document.getElementById('dropAddress').textContent = s.dropoff_address || s.address || 'Contact us for the drop-off location';
+  document.getElementById('dropContact').textContent = s.dropoff_contact || 'KidsFund Team';
+  document.getElementById('dropHours').textContent = s.dropoff_hours || 'Mon–Sat, 9am–5pm';
+
+  // Needs list
+  const needs = JSON.parse(s.goods_needs || '[]');
+  const grid = document.getElementById('needsGrid');
+
+  if (!needs.length) {
+    grid.innerHTML = '<div class="loading">Contact us for the current list of items needed.</div>';
+    return;
+  }
+
+  grid.innerHTML = needs.map(n => `
+    <div class="need-card">
+      <div class="cat">${escapeHtml(n.category || 'General')}</div>
+      <div class="name">${escapeHtml(n.name)}</div>
+    </div>
+  `).join('');
+}
+
+loadPage();
+</script>
+</body>
+</html>

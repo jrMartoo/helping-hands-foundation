@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — KidsFund</title>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+.contact-page { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+.contact-page h1 { font-size: 32px; color: #1b5e20; margin-bottom: 8px; }
+.contact-page .subtitle { color: #666; margin-bottom: 40px; }
+
+.contact-grid {
+  display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px;
+}
+.contact-info h2 { font-size: 20px; margin-bottom: 16px; color: #1b5e20; }
+.info-row { margin-bottom: 20px; }
+.info-row .label {
+  font-size: 12px; text-transform: uppercase; letter-spacing: .5px;
+  color: #888; margin-bottom: 4px;
+}
+.info-row .value { font-size: 16px; color: #1a1a1a; }
+.info-row a { color: #1b5e20; text-decoration: underline; }
+
+.contact-form {
+  background: white; padding: 32px; border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.contact-form label {
+  display: block; font-size: 13px; color: #444;
+  margin: 16px 0 6px; font-weight: 500;
+}
+.contact-form input,
+.contact-form textarea {
+  width: 100%; padding: 12px 14px; border: 1px solid #ddd;
+  border-radius: 8px; font-size: 15px; font-family: inherit;
+}
+.contact-form textarea { resize: vertical; min-height: 120px; }
+.contact-form button { margin-top: 20px; }
+.form-msg {
+  margin-top: 16px; font-size: 14px; padding: 12px;
+  border-radius: 8px; display: none;
+}
+.form-msg.success { background: #e8f5e9; color: #1b5e20; display: block; }
+.form-msg.error { background: #ffebee; color: #c62828; display: block; }
+
+@media (max-width: 700px) {
+  .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <a href="/" class="logo">🌱 KidsFund</a>
+  <nav>
+    <a href="/about.html">About</a>
+    <a href="/projects.html">Projects</a>
+    <a href="/#campaigns">Campaigns</a>
+    <a href="/contact.html">Contact</a>
+    <a href="/campaign.html?slug=general-fund" class="btn-outline">Donate</a>
+  </nav>
+</header>
+
+<main class="contact-page">
+  <h1>Get in Touch</h1>
+  <p class="subtitle">Questions, partnership ideas, or a child who needs help? Reach out.</p>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      <h2>Our Details</h2>
+
+      <div class="info-row">
+        <div class="label">Phone</div>
+        <div class="value" id="cPhone">—</div>
+      </div>
+
+      <div class="info-row">
+        <div class="label">Email</div>
+        <div class="value" id="cEmail">—</div>
+      </div>
+
+      <div class="info-row">
+        <div class="label">Location</div>
+        <div class="value" id="cAddress">—</div>
+      </div>
+
+      <div class="info-row">
+        <div class="label">Working Since</div>
+        <div class="value" id="cFounded">—</div>
+      </div>
+    </div>
+
+    <form class="contact-form" id="contactForm">
+      <h2 style="font-size:20px;margin-bottom:8px;color:#1b5e20;">Send Us a Message</h2>
+      <p style="color:#666;font-size:14px;margin-bottom:8px;">
+        We'll get back to you as soon as we can.
+      </p>
+
+      <label>Your Name *</label>
+      <input name="name" required>
+
+      <label>Email (optional)</label>
+      <input name="email" type="email">
+
+      <label>Phone (optional)</label>
+      <input name="phone" type="tel">
+
+      <label>Message *</label>
+      <textarea name="message" required></textarea>
+
+      <button type="submit" class="btn-primary">Send Message</button>
+      <div class="form-msg" id="formMsg"></div>
+    </form>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="logo">🌱 KidsFund</div>
+      <p class="footer-muted" id="footerMission"></p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <p id="footerPhone">—</p>
+      <p id="footerEmail">—</p>
+      <p id="footerAddress">—</p>
+    </div>
+    <div>
+      <h4>Quick Links</h4>
+      <p><a href="/about.html">Our Story</a></p>
+      <p><a href="/projects.html">Projects</a></p>
+      <p><a href="/contact.html">Contact</a></p>
+      <p><a href="/campaign.html?slug=general-fund">Donate</a></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © <span id="year"></span> KidsFund. Registered charity. All donations processed via M-Pesa.
+  </div>
+</footer>
+
+<script>
+async function loadSettings() {
+  const res = await fetch('/api/site/settings');
+  const s = await res.json();
+
+  document.getElementById('cPhone').textContent = s.phone || '—';
+  document.getElementById('cEmail').textContent = s.email || '—';
+  document.getElementById('cAddress').textContent = s.address || '—';
+  document.getElementById('cFounded').textContent = s.founded_year || '—';
+
+  document.getElementById('footerMission').textContent = `Working since ${s.founded_year || '2012'} to support children in our community.`;
+  document.getElementById('footerPhone').textContent = s.phone || '';
+  document.getElementById('footerEmail').textContent = s.email || '';
+  document.getElementById('footerAddress').textContent = s.address || '';
+  document.getElementById('year').textContent = new Date().getFullYear();
+}
+
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const btn = form.querySelector('button');
+  const msg = document.getElementById('formMsg');
+
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  const data = Object.fromEntries(new FormData(form));
+
+  try {
+    const res = await fetch('/api/site/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const out = await res.json();
+    if (!res.ok) throw new Error(out.error || 'Failed to send');
+
+    msg.textContent = '✓ Thank you. We will get back to you soon.';
+    msg.className = 'form-msg success';
+    form.reset();
+  } catch (err) {
+    msg.textContent = 'Error: ' + err.message;
+    msg.className = 'form-msg error';
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send Message';
+  }
+});
+
+loadSettings();
+</script>
+</body>
+</html>
