@@ -7,7 +7,7 @@
     "start": "node server.js"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": "22.x"
   },
   "keywords": [],
   "author": "Helping Hands Foundation",
@@ -15,7 +15,7 @@
   "dependencies": {
     "axios": "^1.7.0",
     "bcrypt": "^5.1.1",
-    "better-sqlite3": "^11.0.0",
+    "better-sqlite3": "^12.9.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",
