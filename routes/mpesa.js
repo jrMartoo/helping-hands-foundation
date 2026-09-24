@@ -25,8 +25,24 @@ async function getAccessToken() {
   return res.data.access_token;
 }
 
+// Kenya time (UTC+3) — required by Safaricom
+function getKenyaTimestamp() {
+  const now = new Date();
+  const kenyaMs = now.getTime() + (3 * 60 * 60 * 1000) + (now.getTimezoneOffset() * 60 * 1000);
+  const k = new Date(kenyaMs);
+  const pad = n => String(n).padStart(2, '0');
+  return (
+    k.getFullYear().toString() +
+    pad(k.getMonth() + 1) +
+    pad(k.getDate()) +
+    pad(k.getHours()) +
+    pad(k.getMinutes()) +
+    pad(k.getSeconds())
+  );
+}
+
 function generatePassword() {
-  const timestamp = new Date().toISOString().replace(/[^0-9]/g, '').slice(0, -3);
+  const timestamp = getKenyaTimestamp();
   const password = Buffer.from(`${MPESA_SHORTCODE}${MPESA_PASSKEY}${timestamp}`).toString('base64');
   return { password, timestamp };
 }
@@ -97,7 +113,13 @@ router.post('/pay', async (req, res) => {
     });
 
   } catch (err) {
-    console.error('STK Push error:', err.response?.data || err.message);
+    console.error('===== STK PUSH FAILED =====');
+    console.error('Status:', err.response?.status);
+    console.error('Data:', JSON.stringify(err.response?.data, null, 2));
+    console.error('Message:', err.message);
+    console.error('Config URL:', err.config?.url);
+    console.error('Payload sent:', JSON.stringify(err.config?.data, null, 2));
+    console.error('===========================');
     res.status(500).json({
       error: 'Failed to initiate M-Pesa payment',
       details: err.response?.data?.errorMessage || err.message
