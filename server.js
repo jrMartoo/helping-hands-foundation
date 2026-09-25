@@ -35,6 +35,31 @@ if (existingAdmin.c === 0) {
   db.prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)').run('admin', hash);
   console.log('⚠️  Default admin created: admin / admin123 — change immediately');
 }
+// TEMPORARY: one-time password reset endpoint. Delete after use.
+app.get('/api/reset-admin', (req, res) => {
+  const secret = req.query.secret;
+  const newpass = req.query.newpass;
+
+  if (secret !== 'hhf-reset-2026-temp') {
+    return res.status(403).send('Forbidden');
+  }
+  if (!newpass || newpass.length < 6) {
+    return res.status(400).send('newpass must be at least 6 characters');
+  }
+
+  const hash = bcrypt.hashSync(newpass, 10);
+  const existing = db.prepare('SELECT id FROM admins WHERE username = ?').get('admin');
+
+  if (existing) {
+    db.prepare('UPDATE admins SET password_hash = ? WHERE username = ?').run(hash, 'admin');
+    console.log('✓ Admin password updated');
+  } else {
+    db.prepare('INSERT INTO admins (username, password_hash) VALUES (?, ?)').run('admin', hash);
+    console.log('✓ Admin created with new password');
+  }
+
+  res.send('Password updated. You can now log in at /admin.html');
+});
 
 app.post('/api/admin/login', (req, res) => {
   const { username, password } = req.body;
